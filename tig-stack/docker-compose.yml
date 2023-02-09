@@ -1,0 +1,62 @@
+version: "3"
+
+services:
+  influxdb:
+    image: influxdb:2.5.1
+    volumes:
+      - influxdb-storage:/var/lib/influxdb2:rw
+    env_file:
+      - .env
+    entrypoint: ["./entrypoint.sh"]
+    restart: on-failure:10
+    ports:
+      - ${DOCKER_INFLUXDB_INIT_PORT}:8086
+      
+  #hivemq:
+    #image: hivemq/hivemq4
+    #ports:
+      #- "1883:1883"
+      #- "8080:8080"
+      
+  rabbitmq:
+    image: rabbitmq:3
+    ports:
+      - "1883:1883"
+      - "15672:15672"
+      - "5672:5672"
+    volumes:
+      - "./rabbitmq/:/etc/rabbitmq/"
+
+  telegraf:
+    image: telegraf:1.24
+    volumes:
+      - ${TELEGRAF_CFG_PATH}:/etc/telegraf/telegraf.conf:rw
+    env_file:
+      - .env
+    restart: unless-stopped
+    depends_on:
+      - influxdb
+      #- hivemq
+      - rabbitmq
+
+  #grafana:
+    #image: grafana/grafana-oss:9.3.2
+    #volumes:
+      #- ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+      #- ./grafana/provisioning/contact-points:/etc/grafana/provisioning/contact-points
+      #- ./grafana/provisioning/templates:/etc/grafana/provisioning/templates
+      #- ./grafana/provisioning/alerting:/etc/grafana/provisioning/alerting
+      #- grafana-storage:/var/lib/grafana:rw
+    #depends_on:
+      #- influxdb
+    #ports:
+      #- ${GRAFANA_PORT}:3000
+
+volumes:
+  #grafana-storage:
+  influxdb-storage:
+
+networks: 
+  default: 
+    external: 
+      name: tatapower

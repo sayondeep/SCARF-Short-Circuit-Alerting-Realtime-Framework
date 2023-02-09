@@ -1,0 +1,23 @@
+apiVersion: 1
+
+# List of templates to import or update
+templates:
+  # <int> organization ID, default = 1
+  - orgID: 1
+    # <string, required> name of the template, must be unique
+    name: telegram.message
+    # <string, required> content of the the template
+    template: {{ define "alert_list" }}{{ range . }}{{ .Labels.alertname }}
+{{ range .Annotations.SortedPairs }}<strong>{{ .Name }}</strong>: {{ .Value }}
+{{ end }}
+—
+{{ end }}{{ end }}
+{{ define "telegram.message" }}
+{{ if gt (len .Alerts.Firing) 0 }}<strong>??ALERT!!!??</strong>
+—
+{{ template "alert_list" .Alerts.Firing }}
+{{ if gt (len .Alerts.Resolved) 0 }}
+{{ end }}{{ end }}{{ if gt (len .Alerts.Resolved) 0 }}<strong>?Resolved?</strong>
+—
+{{ template "alert_list" .Alerts.Resolved }}
+{{ end }}{{ end }}

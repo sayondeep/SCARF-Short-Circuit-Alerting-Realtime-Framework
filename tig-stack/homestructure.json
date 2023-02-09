@@ -1,0 +1,34 @@
+{
+      "Appliances":[
+         {
+            "Device":"Refrigerator",
+            "Brand":"Samsung",
+            "Min_Watt":150,
+            "Max_Watt":750
+         },
+         {
+            "Device":"Microwave_Oven",
+            "Brand":"IFB",
+            "Min_Watt":800,
+            "Max_Watt":2000
+         },
+         {
+            "Device":"Room_Heater",
+            "Brand":"Havells",
+            "Min_Watt":800,
+            "Max_Watt":2400
+         },
+         {
+            "Device":"Washing_Machine",
+            "Brand":"Bosch",
+            "Min_Watt":1000,
+            "Max_Watt":2000
+         }
+      ],
+      "Meter":{
+         "Device":"Electric_Meter",
+         "Brand":"L&T",
+         "Min_Current":5,
+         "Max_Current":30
+      }
+}

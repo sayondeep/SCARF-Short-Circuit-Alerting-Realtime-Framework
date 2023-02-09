@@ -1,0 +1,27 @@
+# config file version
+apiVersion: 1
+
+# List of contact points to import or update
+deleteContactPoints:
+  # <int> organization ID, default = 1
+  - orgId: 1
+    # <string, required> unique identifier for the receiver
+    uid: KNKdqVp4k
+contactPoints:
+  # <int> organization ID, default = 1
+  - orgId: 1
+    # <string, required> name of the contact point
+    name: telegram
+    receivers:
+      # <string, required> unique identifier for the receiver
+      - uid: KNKdqVp4k
+        # <string, required> type of the receiver
+        type: telegram
+        # <object, required> settings for the specific receiver type
+        settings:
+          bottoken: 5818330332:AAGhvdWAe6xXezcx6Yxc_jxpVPtz4NP3eeg
+          # <string, required>
+          chatid: 1099845479
+          # <string>
+          message: |
+    {{ template "telegram.message" . }}
